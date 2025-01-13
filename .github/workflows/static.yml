@@ -1,19 +1,17 @@
-name: Deploy Coverage Reports to Pages
+name: Deploy Coverage Report to Pages
 
 on:
-  # Runs when new coverage reports are pushed
+  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-  # Allows manual trigger
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -31,34 +29,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # Optional: Create index page for coverage reports
-      - name: Create index page
-        run: |
-          echo '<!DOCTYPE html>
-          <html>
-          <head>
-              <title>Coverage Reports</title>
-              <style>
-                  body { font-family: Arial, sans-serif; margin: 40px; }
-                  h1 { color: #333; }
-                  .service { margin: 20px 0; padding: 10px; border: 1px solid #ddd; }
-                  a { color: #0366d6; text-decoration: none; }
-                  a:hover { text-decoration: underline; }
-              </style>
-          </head>
-          <body>
-              <h1>Coverage Reports</h1>
-              <div class="service">
-                  <h2>Product Service</h2>
-                  <a href="./product-service/lcov-report/index.html">View Coverage Report</a>
-              </div>
-          </body>
-          </html>' > index.html
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'coverage'
 
       - name: Deploy to GitHub Pages
         id: deployment
